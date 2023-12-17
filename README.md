@@ -13,9 +13,8 @@ Brief description of your .NET Core Web API project.
 - [Build and Run](#build-and-run)
 - [API Documentation](#api-documentation)
 - [Testing](#testing)
-- [Contributing](#contributing)
-- [License](#license)
-- [Why Async/Await](#why-async-await)
+- [Why Async/Await?](#why-async-await)
+- [Repository Pattern](#repository-pattern)
 
 ## Project Overview
 
@@ -58,7 +57,15 @@ If applicable, provide documentation for your API. Include endpoints, request/re
 
 Explain how to run tests and include any guidelines for contributors regarding testing.
 
-## Why Async/Await
+## Contributing
+
+Include guidelines for contributors. Explain how others can contribute to your project, report issues, or submit pull requests.
+
+## License
+
+Specify the license under which your project is distributed.
+
+## Why Async/Await?
 
 So, imagine we had a way of doing things step by step, like following a recipe. Now, instead of waiting for each step to finish before moving on to the next one, we can multitask.
 
@@ -69,3 +76,20 @@ Making things asynchronous is like asking for the info and then doing other thin
 This helps a lot when we have lots of requests coming in. If we didn't do it this way, each request would tie up our system until it gets what it needs, and that's not great for handling many requests at once.
 
 So, making our code asynchronous is like having a more organized and efficient way of handling many tasks at the same time, making things work better, especially when dealing with lots of requests.
+
+## Repository Pattern
+
+### Goals:
+
+- Decouple business code from data access
+- Separation of concerns
+- Minimize duplicate query logic
+- Testability
+
+### Consequences:
+
+- Increased level of abstraction
+- Increased maintainability, flexibility, testability
+- More classes/interfaces - less duplicate code
+- Business logic further away from the data
+- Harder to optimize certain operations against the data source
