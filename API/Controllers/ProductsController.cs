@@ -15,6 +15,7 @@ namespace API.Controllers
             _productRepository = productRepository;
             
         }
+
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetProducts()
         {
@@ -27,6 +28,22 @@ namespace API.Controllers
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
             return await _productRepository.GetProductByIdAsync(id);
+        }
+
+        [HttpGet("brands")]
+        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
+        {
+            var productBrands = await _productRepository.GetProductBrandsAsync();
+
+            return Ok(productBrands);
+        }
+
+        [HttpGet("types")]
+        public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes()
+        {
+            var productTypes = await _productRepository.GetProductTypesAsync();
+
+            return Ok(productTypes);
         }
     }
 }
