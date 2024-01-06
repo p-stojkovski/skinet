@@ -22,10 +22,15 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         if (error) {
           if (error.status === 400) {
-            this.toastr.error(error.error.message, error.status.toString())
+            //error.error.errors means validation errors that we are handling into compoment(ex. forms)
+            if (error.error.errors) { 
+              throw error.error;
+            } else {
+              this.toastr.error(error.error.message, error.status.toString());
+            }
           }
           if (error.status === 401) {
-            this.toastr.error(error.error.message, error.status.toString())
+            this.toastr.error(error.error.message, error.status.toString());
           }
           if (error.status === 404) {
             this.router.navigateByUrl('/not-found');
