@@ -100,4 +100,5 @@ So, making our code asynchronous is like having a more organized and efficient w
 - "font-awesome": "^4.7.0",
 - "ngx-toastr": "^16.2.0",
 - "ngx-bootstrap": "^10.2.0",
-- "xng-breadcrumb": "^9.0.0"
+- "xng-breadcrumb": "^9.0.0",
+- "ngx-spinner": "^15.0.1",
