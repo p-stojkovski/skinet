@@ -96,6 +96,7 @@ So, making our code asynchronous is like having a more organized and efficient w
 
 ### External packages - client:
 - "bootstrap": "^5.1.3",
+- "bootswatch": "^5.3.2",
 - "font-awesome": "^4.7.0",
 - "ngx-toastr": "^16.2.0",
 - "ngx-bootstrap": "^10.2.0",
