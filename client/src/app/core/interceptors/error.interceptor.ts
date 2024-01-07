@@ -7,7 +7,7 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
@@ -36,7 +36,13 @@ export class ErrorInterceptor implements HttpInterceptor {
             this.router.navigateByUrl('/not-found');
           }
           if (error.status === 500) {
-            this.router.navigateByUrl('/server-error');
+            //with navigationExtras we are sending the error information to the component where we want to read the error
+            const navigationExtras: NavigationExtras = {
+              state: {
+                error: error.error
+              }
+            };
+            this.router.navigateByUrl('/server-error', navigationExtras);
           }
         }
 
