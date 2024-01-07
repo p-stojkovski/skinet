@@ -1,1 +1,10 @@
-<p>home works!</p>
+<carousel [isAnimated]="true">
+    <slide *ngFor="let image of images">
+        <img [src]="image" alt="slide" style="display: block; width: 100%;">
+    </slide>
+</carousel>
+<section class="featured">
+    <div class="d-flex justify-content-center pt-4">
+        <h1>Welcome to the Shop!</h1>
+    </div>
+</section>
