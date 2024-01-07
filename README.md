@@ -93,3 +93,10 @@ So, making our code asynchronous is like having a more organized and efficient w
 - More classes/interfaces - less duplicate code
 - Business logic further away from the data
 - Harder to optimize certain operations against the data source
+
+### External packages - client:
+- "bootstrap": "^5.1.3",
+- "font-awesome": "^4.7.0",
+- "ngx-toastr": "^16.2.0",
+- "ngx-bootstrap": "^10.2.0",
+- "xng-breadcrumb": "^9.0.0"
