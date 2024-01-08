@@ -120,6 +120,6 @@ InMemory data store, can work with key/value pair. Very compitable with resolvin
 Supports, strings, hashes, lists, sets, etc.
 Fast.
 What about if our server or redis restars, do we lose our data? No. Persists data by using snapshots every minute and store that on disk. If restarts it will reload the data in memory based on the last snapshot.
-Data can be given time to live. (Expiry date).
+Data can be given time to live. (Expiry date). This can vary by how many customers we will have, how many baskets can live in memory, how much memory do we have on our server, what makes sense from a bussiness rule how much time should we store.
 Great for caching data.
 Designed to be shared among multiple callers and is completly thread safe.
