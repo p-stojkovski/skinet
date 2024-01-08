@@ -8,6 +8,7 @@ namespace Infrastructure.Data;
 public class BasketRepository : IBasketRepository
 {
     private readonly IDatabase _database;
+    
     public BasketRepository(IConnectionMultiplexer redis)
     {
         _database = redis.GetDatabase();
@@ -25,7 +26,7 @@ public class BasketRepository : IBasketRepository
         return data.IsNullOrEmpty ? null : JsonSerializer.Deserialize<CustomerBasket>(data);
     }
 
-    public async Task<CustomerBasket> UpdateBasketAsync(CustomerBasket basket)
+    public async Task<CustomerBasket> SaveBasketAsync(CustomerBasket basket)
     {
         var created = await _database.StringSetAsync(basket.Id,
             JsonSerializer.Serialize(basket),
