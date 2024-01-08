@@ -102,3 +102,24 @@ So, making our code asynchronous is like having a more organized and efficient w
 - "ngx-bootstrap": "^10.2.0",
 - "xng-breadcrumb": "^9.0.0",
 - "ngx-spinner": "^15.0.1",
+
+### API Basket persistence descion
+We have couple of options how to persists basket data:
+
+- Databse
+One of the negative sides od storing in a database is that is user add some data and leaves and never comes back to the store, the items are left hanging in the db. Sure we can delete those occasionaly, in some time frame with expiry date...
+
+- Local storage
+It is very viable option, but with this option we are opting for client side storage. The basket won't be populated on different device if accessed.
+
+- Cookie
+It not really typically used with api.
+
+- Redis
+InMemory data store, can work with key/value pair. Very compitable with resolving this kind of problem.
+Supports, strings, hashes, lists, sets, etc.
+Fast.
+What about if our server or redis restars, do we lose our data? No. Persists data by using snapshots every minute and store that on disk. If restarts it will reload the data in memory based on the last snapshot.
+Data can be given time to live. (Expiry date).
+Great for caching data.
+Designed to be shared among multiple callers and is completly thread safe.
