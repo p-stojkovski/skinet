@@ -102,6 +102,7 @@ So, making our code asynchronous is like having a more organized and efficient w
 - "ngx-bootstrap": "^10.2.0",
 - "xng-breadcrumb": "^9.0.0",
 - "ngx-spinner": "^15.0.1",
+- "cuid": "^3.0.0",
 
 ### API Basket persistence descion
 We have couple of options how to persists basket data:
