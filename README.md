@@ -124,3 +124,4 @@ What about if our server or redis restars, do we lose our data? No. Persists dat
 Data can be given time to live. (Expiry date). This can vary by how many customers we will have, how many baskets can live in memory, how much memory do we have on our server, what makes sense from a bussiness rule how much time should we store.
 Great for caching data.
 Designed to be shared among multiple callers and is completly thread safe.
+Accessing locally to the data can be done from the RedisCommander (http://127.0.0.1:8081/) that is installed from the docker compose file.

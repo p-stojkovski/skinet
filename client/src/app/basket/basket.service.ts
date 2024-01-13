@@ -17,7 +17,7 @@ export class BasketService {
   constructor(private http: HttpClient) {}
 
   getBasket(id: string): Subscription {
-    return this.http.get<Basket>(this.baseUrl + 'basket?id' + id).subscribe({
+    return this.http.get<Basket>(this.baseUrl + 'basket?id=' + id).subscribe({
       next: (basket) => this.basketSource.next(basket),
     });
   }
