@@ -10,7 +10,7 @@ import { OrderTotalsComponent } from './order-totals/order-totals.component';
   declarations: [
     PagingHeaderComponent,
     PagerComponent,
-    OrderTotalsComponent
+    OrderTotalsComponent,
   ],
   imports: [
     CommonModule,
@@ -22,7 +22,7 @@ import { OrderTotalsComponent } from './order-totals/order-totals.component';
     PagingHeaderComponent,
     PagerComponent,
     CarouselModule,
-    OrderTotalsComponent
+    OrderTotalsComponent,
   ]
 })
 export class SharedModule { }
