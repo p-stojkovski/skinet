@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-3">
     <div *ngIf="(basketService.basketSource$ | async) == null">
         <p>There are no items in your basket</p>
     </div>
@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="table-responsive">
                     <table class="table">
-                        <thead class="bg-light text-uppercase">
+                        <thead class="table-active text-uppercase">
                             <tr>
                                 <th><div class="py-2">Product</div></th>
                                 <th><div class="py-2">Price</div></th>
@@ -63,6 +63,16 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 offset-6 mb-3">
+                    <app-order-totals></app-order-totals>
+                    <div class="d-grid">
+                        <a routerLink="/checkout" class="btn btn-outline-primary py-2">
+                            Procced to checkout
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
