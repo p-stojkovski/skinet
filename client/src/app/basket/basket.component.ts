@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BasketService } from './basket.service';
 import { BasketItem } from '../shared/models/basket';
+import { ConfirmDialogService } from '../shared/confirm-dialog/confirm-dialog.service';
 
 @Component({
   selector: 'app-basket',
@@ -8,17 +9,40 @@ import { BasketItem } from '../shared/models/basket';
   styleUrls: ['./basket.component.scss'],
 })
 export class BasketComponent {
-  constructor(public basketService: BasketService) {}
+  constructor(
+    public basketService: BasketService,
+    private confirmDialogService: ConfirmDialogService
+  ) {}
 
   incrementQuantity(item: BasketItem): void {
     this.basketService.addItemToBasket(item);
   }
 
-  decrementQuantity(id: number): void {
-    this.basketService.removeItemFromBasket(id, 1);
+  decrementQuantity(item: BasketItem): void {
+    if(item.quantity === 1) {
+      this.showConfirmation(item);
+      return;
+    }
+
+    this.basketService.removeItemFromBasket(item.id, 1);
   }
 
   removeItem(item: BasketItem): void {
-    this.basketService.removeItemFromBasket(item.id, item.quantity);
+    this.showConfirmation(item);
+  }
+
+  showConfirmation(item: BasketItem): void {
+    const confirmationTitle = 'Confirmation';
+    const confirmationMessage =
+      'Are you sure you want to remove ' + item.productName + ' from cart?';
+
+    this.confirmDialogService
+      .open(confirmationTitle, confirmationMessage)
+      .then(() => {
+        this.basketService.removeItemFromBasket(item.id, item.quantity);
+      })
+      .catch(() => {
+        console.log('Cancelled!');
+      });
   }
 }
