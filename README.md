@@ -125,3 +125,6 @@ Data can be given time to live. (Expiry date). This can vary by how many custome
 Great for caching data.
 Designed to be shared among multiple callers and is completly thread safe.
 Accessing locally to the data can be done from the RedisCommander (http://127.0.0.1:8081/) that is installed from the docker compose file.
+
+run command: docker-compose up --detach
+*--detach means it will run the container in background and keep them running
