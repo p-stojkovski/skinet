@@ -67,7 +67,7 @@ public class AccountController : BaseApiController
 
         var result = await _userManager.UpdateAsync(user);
 
-        if(!result.Succeeded) 
+        if (!result.Succeeded)
         {
             return BadRequest("Problem with updating user.");
         }
@@ -101,6 +101,11 @@ public class AccountController : BaseApiController
     [HttpPost("register")]
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
+        if (CheckEmailExistsAsync(registerDto.Email).Result.Value)
+        {
+            return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "Email address is in use." } });
+        }
+
         var user = new AppUser
         {
             DisplayName = registerDto.DisplayName,
