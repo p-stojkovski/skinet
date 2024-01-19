@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Extenstions;
 
-public static class UserManagerExtenstions
+public static class UserManagerExtensions
 {
     public static async Task<AppUser> FindByEmailFromClaimsPrincipal(this UserManager<AppUser> userManager,
     ClaimsPrincipal user, bool includeAddress = false)
