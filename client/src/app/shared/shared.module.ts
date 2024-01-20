@@ -9,6 +9,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TextInputComponent } from './components/text-input/text-input.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     PagerComponent,
     OrderTotalsComponent,
     ConfirmDialogComponent,
+    TextInputComponent,
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     CarouselModule,
     OrderTotalsComponent,
     ReactiveFormsModule,
-    BsDropdownModule
+    BsDropdownModule,
+    TextInputComponent
   ],
 })
 export class SharedModule { }

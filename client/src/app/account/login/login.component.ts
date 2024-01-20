@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   loginForm = new FormGroup({
-    email: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required),
   });
 
@@ -18,7 +18,7 @@ export class LoginComponent {
 
   onSubmit(): void {
     this.accountService.login(this.loginForm.value).subscribe({
-      next: user => this.router.navigateByUrl('/shop')
+      next: () => this.router.navigateByUrl('/shop')
     })
   }
 }
