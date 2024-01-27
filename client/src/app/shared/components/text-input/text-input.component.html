@@ -4,12 +4,12 @@
         [formControl]="control" 
         placeholder="{{label}}"
         class="form-control" 
-        [ngClass]="(control.touched) ? control.invalid ? 'is-invalid' : 'is-valid' : null"
-        >
+        [ngClass]="{
+            'is-invalid': control.touched && control.invalid,
+            'is-valid': control.touched && !control.invalid
+        }"
+    >
     <div *ngIf="control.status === 'PENDING'" class="fa fa-spinner fa-spin loader"></div>
     <label for="floatingInput">{{label}}</label>
-    <div *ngIf="control.errors?.['required']" class="invalid-feedback">Please enter your {{label}}</div>
-    <div *ngIf="control.errors?.['email']" class="invalid-feedback">Invalid email address</div>
-    <div *ngIf="control.errors?.['pattern']" class="invalid-feedback">Password must have 1 Uppercase, 1 Lowercase, 1 number, 1 non alphanumeric and at least 6 characters</div>
-    <div *ngIf="control.errors?.['emailExists']" class="invalid-feedback">Email address is taken</div>
+    <div *ngIf="control.invalid" class="invalid-feedback">{{ getErrorMessage() }}</div>
 </div>

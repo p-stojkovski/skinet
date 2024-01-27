@@ -26,6 +26,23 @@ export class TextInputComponent implements ControlValueAccessor {
   registerOnChange(fn: any): void {}
   registerOnTouched(fn: any): void {}
 
+  getErrorMessage() {
+    if (this.control.hasError('required')) {
+      return 'Please enter your value';
+    }
+    if (this.control.hasError('email')) {
+      return 'Invalid email address';
+    }
+    if (this.control.hasError('emailExists')) {
+      return 'Email address is taken';
+    }
+    if (this.control.hasError('pattern')) {
+      return 'Password must have 1 Uppercase, 1 Lowercase, 1 number, 1 non-alphanumeric, and at least 6 characters';
+    }
+
+    return '';
+  }
+
   get control(): FormControl {
     return this.controlDir.control as FormControl;
   }
