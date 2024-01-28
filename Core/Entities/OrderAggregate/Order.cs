@@ -5,10 +5,10 @@ public class Order : BaseEntity
     {
     }
     
-    public Order(string buyerEmail,
+    public Order(IReadOnlyList<OrderItem> orderItems,
+                string buyerEmail,
                 Address shipToAddress,
                 DeliveryMethod deliveryMethod,
-                IReadOnlyList<OrderItem> orderItems,
                 decimal subtotal)
     {
         BuyerEmail = buyerEmail;

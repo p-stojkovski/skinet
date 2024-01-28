@@ -21,10 +21,12 @@ public static class ApplicationServicesExtensions
             var options = ConfigurationOptions.Parse(config.GetConnectionString("Redis"));
             return ConnectionMultiplexer.Connect(options);
         });
+
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IBasketRepository, BasketRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-        services.AddScoped<ITokenService, TokenService>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         services.Configure<ApiBehaviorOptions>(options =>
         {
