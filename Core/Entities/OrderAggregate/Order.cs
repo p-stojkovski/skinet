@@ -4,18 +4,17 @@ public class Order : BaseEntity
     public Order()
     {
     }
-    
+
     public Order(IReadOnlyList<OrderItem> orderItems,
                 string buyerEmail,
                 Address shipToAddress,
-                DeliveryMethod deliveryMethod,
-                decimal subtotal)
+                DeliveryMethod deliveryMethod)
     {
         BuyerEmail = buyerEmail;
         ShipToAddress = shipToAddress;
         DeliveryMethod = deliveryMethod;
         OrderItems = orderItems;
-        Subtotal = subtotal;
+        Subtotal = CalculateSubTotal();
     }
 
     public string BuyerEmail { get; set; }
@@ -30,5 +29,10 @@ public class Order : BaseEntity
     public decimal GetTotal()
     {
         return Subtotal + DeliveryMethod.Price;
+    }
+
+    private decimal CalculateSubTotal()
+    {
+        return OrderItems?.Sum(item => item.Price * item.Quantity) ?? 0m;
     }
 }
