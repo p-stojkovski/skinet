@@ -1,6 +1,7 @@
 using Core.Entities;
 using Core.Entities.OrderAggregate;
 using Core.Interfaces;
+using Core.Specifications;
 
 namespace Infrastructure.Services;
 
@@ -15,6 +16,7 @@ public class OrderService : IOrderService
         _basketRepository = basketRepository;
     }
 
+    //TODO: Extract out input params into separate object model
     public async Task<Order> CreateOrderAsync(string buyerEmail, int deliveryMethodId, string basketId, Address shippingAddress)
     {
         var basket = await _basketRepository.GetBasketAsync(basketId);
@@ -47,18 +49,22 @@ public class OrderService : IOrderService
         return order;
     }
 
-    public Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync()
+    public async Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync()
     {
-        throw new NotImplementedException();
+        return await _unitOfWork.Repository<DeliveryMethod>().ListAllAsync();
     }
 
-    public Task<Order> GetOrderByIdAsync(int id, string buyerEmail)
+    public async Task<Order> GetOrderByIdAsync(int id, string buyerEmail)
     {
-        throw new NotImplementedException();
+         return await _unitOfWork
+            .Repository<Order>()
+            .GetEntityWithSpec(new OrdersWithItemsAndOrderingSpecification(id, buyerEmail));
     }
 
-    public Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
+    public async Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
     {
-        throw new NotImplementedException();
+        return await _unitOfWork
+            .Repository<Order>()
+            .ListAsync(new OrdersWithItemsAndOrderingSpecification(buyerEmail));
     }
 }
