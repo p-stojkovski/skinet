@@ -28,35 +28,35 @@ public class OrdersController : BaseApiController
 
         var order = await _orderService.CreateOrderAsync(UserEmail, orderDto.DeliveryMethodId, orderDto.BasketId, address);
 
-        if(order == null) return BadRequest(new ApiResponse(StatusCodes.Status400BadRequest, "Problem creating order"));
+        if (order == null) return BadRequest(new ApiResponse(StatusCodes.Status400BadRequest, "Problem creating order"));
 
         return Ok(order);
     }
 
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<Order>>> GetOrdersForUser()
+    public async Task<ActionResult<IReadOnlyList<OrderToReturnDto>>> GetOrdersForUser()
     {
         var orders = await _orderService.GetOrdersForUserAsync(UserEmail);
 
-        return Ok(orders);
-    } 
+        return Ok(_mapper.Map<IReadOnlyList<OrderToReturnDto>>(orders));
+    }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Order>> GetOrderByIdForUser(int id)
+    public async Task<ActionResult<OrderToReturnDto>> GetOrderByIdForUser(int id)
     {
         var order = await _orderService.GetOrderByIdAsync(id, UserEmail);
 
-        if(order is null) 
+        if (order is null)
         {
             return NotFound(new ApiResponse((int)HttpStatusCode.NotFound));
         }
 
-        return order;
-    } 
+        return _mapper.Map<OrderToReturnDto>(order);
+    }
 
     [HttpGet("delivery-methods")]
     public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethods()
     {
         return Ok(await _orderService.GetDeliveryMethodsAsync());
-    } 
+    }
 }

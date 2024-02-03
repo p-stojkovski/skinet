@@ -27,6 +27,7 @@ public class ProductsController : BaseApiController
         _mapper = mapper;
     }
 
+    //TODO: Replace ProductSpecParams with request object
     [HttpGet]
     public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery] ProductSpecParams productParams)
     {  
