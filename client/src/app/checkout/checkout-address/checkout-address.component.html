@@ -8,24 +8,24 @@
             Save as default address
         </button>
     </div>
-    <div class="row" formGroupName="addressForm">
+    <div class="row" formGroupName="{{checkoutFormGroupNames.addressForm}}">
         <div class="form-group col-6">
-            <app-text-input [label]="'First name'" formControlName="firstName"></app-text-input>
+            <app-text-input [label]="'First name'" formControlName="{{formControlNames.firstName}}"></app-text-input>
         </div>
         <div class="form-group col-6">
-            <app-text-input [label]="'Last name'" formControlName="lastName"></app-text-input>
+            <app-text-input [label]="'Last name'" formControlName="{{formControlNames.lastName}}"></app-text-input>
         </div>
         <div class="form-group col-6">
-            <app-text-input [label]="'Street'" formControlName="street"></app-text-input>
+            <app-text-input [label]="'Street'" formControlName="{{formControlNames.street}}"></app-text-input>
         </div>
         <div class="form-group col-6">
-            <app-text-input [label]="'City'" formControlName="city"></app-text-input>
+            <app-text-input [label]="'City'" formControlName="{{formControlNames.city}}"></app-text-input>
         </div>
         <div class="form-group col-6">
-            <app-text-input [label]="'State'" formControlName="state"></app-text-input>
+            <app-text-input [label]="'State'" formControlName="{{formControlNames.state}}"></app-text-input>
         </div>
         <div class="form-group col-6">
-            <app-text-input [label]="'Zip code'" formControlName="zipCode"></app-text-input>
+            <app-text-input [label]="'Zip code'" formControlName="{{formControlNames.zipCode}}"></app-text-input>
         </div>
     </div>
 </div>
