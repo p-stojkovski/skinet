@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { DeliveryMethod } from 'src/app/shared/models/deliveryMethod';
-import { CheckoutService } from '../checkout.service';
+
 import { BasketService } from 'src/app/basket/basket.service';
+import { CheckoutService } from '../../services/checkout.service';
 
 @Component({
   selector: 'app-checkout-delivery',

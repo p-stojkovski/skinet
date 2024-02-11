@@ -2,11 +2,10 @@ import { Component, Input } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from 'src/app/account/account.service';
-import { CheckoutFormGroupStructure, checkoutFormGroupNames } from '../checkout-form.service';
-import {
-  AddressFormStructure,
-  addressFormControlNames,
-} from '../form-settings/address-form-controls';
+import { CheckoutFormGroupStructure, checkoutFormGroupNames } from '../../forms/checkout-form.service';
+import { AddressFormStructure, addressFormControlNames } from '../../forms/address-form-controls';
+
+
 
 @Component({
   selector: 'app-checkout-address',

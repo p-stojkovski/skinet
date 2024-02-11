@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import { Address } from '../shared/models/user';
-import { addressFormControls } from './form-settings/address-form-controls';
-import { deliveryMethodFormControls } from './form-settings/delivery-form-controls';
-import { paymentFormControls } from './form-settings/payment-form-controls';
+import { addressFormControls } from './address-form-controls';
+import { deliveryMethodFormControls } from './delivery-form-controls';
+import { paymentFormControls } from './payment-form-controls';
+import { Address } from 'src/app/shared/models/user';
 
 @Injectable({
   providedIn: 'root',

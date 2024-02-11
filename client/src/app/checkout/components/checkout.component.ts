@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { AccountService } from '../account/account.service';
-import { CheckoutFormService } from './checkout-form.service';
+import { AccountService } from 'src/app/account/account.service';
+import { CheckoutFormService } from '../forms/checkout-form.service';
 
 @Component({
   selector: 'app-checkout',
