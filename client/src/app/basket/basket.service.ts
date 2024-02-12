@@ -20,7 +20,7 @@ export class BasketService {
 
   shipping = 0;
 
-  setShippingPrice(deliveryMethod: DeliveryMethod) : void {
+  setShippingPrice(deliveryMethod: DeliveryMethod): void {
     this.shipping = deliveryMethod.price;
     this.calculateTotals();
   }
@@ -53,7 +53,7 @@ export class BasketService {
     if (this.isProduct(item)) {
       item = this.mapProductItemToBasketItem(item);
     }
-    
+
     const basket = this.getCurrentBasketValue() ?? this.createBasket();
     basket.items = this.addOrUpdateItem(basket.items, item, quantity);
     this.setBasket(basket);
@@ -83,14 +83,18 @@ export class BasketService {
     }
   }
 
-  deleteBasket(basket: Basket) {
+  deleteBasket(basket: Basket): Subscription {
     return this.http.delete(this.baseUrl + 'basket?id=' + basket.id).subscribe({
       next: () => {
-        this.basketSource.next(null);
-        this.basketTotalSource.next(null);
-        localStorage.removeItem('basket_id')
-      }
-    })
+        this.deleteLocalBasket();
+      },
+    });
+  }
+
+  deleteLocalBasket(): void {
+    this.basketSource.next(null);
+    this.basketTotalSource.next(null);
+    localStorage.removeItem('basket_id');
   }
 
   private addOrUpdateItem(
