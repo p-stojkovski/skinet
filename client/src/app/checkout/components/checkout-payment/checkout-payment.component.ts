@@ -4,11 +4,11 @@ import { BasketService } from 'src/app/basket/basket.service';
 import { CheckoutService } from '../../services/checkout.service';
 import { ToastrService } from 'ngx-toastr';
 import { Basket } from 'src/app/shared/models/basket';
-import { checkoutFormGroupNames } from '../../forms/checkout-form.service';
-import { deliveryMethodFormControlNames } from '../../forms/delivery-form-controls';
 import { Address } from 'src/app/shared/models/user';
 import { OrderToCreate } from 'src/app/shared/models/order';
 import { NavigationExtras, Router } from '@angular/router';
+import { deliveryMethodFormControlNames } from '../../forms/models/delivery-form-control-names';
+import { checkoutFormGroupNames } from '../../forms/models/checkout-form-control-names';
 
 @Component({
   selector: 'app-checkout-payment',

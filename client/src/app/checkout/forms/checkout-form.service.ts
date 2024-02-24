@@ -4,6 +4,8 @@ import { addressFormControls } from './address-form-controls';
 import { deliveryMethodFormControls } from './delivery-form-controls';
 import { paymentFormControls } from './payment-form-controls';
 import { Address } from 'src/app/shared/models/user';
+import { checkoutFormGroupNames } from './models/checkout-form-control-names';
+import { deliveryMethodFormControlNames } from './models/delivery-form-control-names';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +31,12 @@ export class CheckoutFormService {
     this.addressForm?.patchValue(address);
   }
 
+  patchDeliveryMethodValue(deliveryMethodId: number) {
+    this.deliveryForm
+      ?.get(deliveryMethodFormControlNames.deliveryMethod)
+      ?.patchValue(deliveryMethodId.toString());
+  }
+
   get form(): FormGroup {
     return this.checkoutForm as FormGroup;
   }
@@ -45,15 +53,3 @@ export class CheckoutFormService {
     return this.checkoutForm?.get(checkoutFormGroupNames.paymentForm) || null;
   }
 }
-
-export interface CheckoutFormGroupStructure {
-  addressForm: string;
-  deliveryForm: string;
-  paymentForm: string;
-}
-
-export const checkoutFormGroupNames: CheckoutFormGroupStructure = {
-  addressForm: 'addressForm',
-  deliveryForm: 'deliveryForm',
-  paymentForm: 'paymentForm',
-};
