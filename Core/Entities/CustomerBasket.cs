@@ -3,7 +3,7 @@ namespace Core.Entities;
 public class CustomerBasket
 {
     public CustomerBasket()
-    {       
+    {
         //Create the new instance without knowing the id
     }
 
@@ -15,4 +15,5 @@ public class CustomerBasket
     public string Id { get; set; }
     public List<BasketItem> Items { get; set; } = new List<BasketItem>();
     public int DeliveryMethodId { get; set; }
+    public decimal ShippingPrice { get; set; }
 }

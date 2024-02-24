@@ -9,12 +9,15 @@ namespace API.Controllers;
 public class BasketController : BaseApiController
 {
     private readonly IBasketRepository _basketRepository;
+    private readonly IOrderService _orderService;
+    
     private readonly IMapper _mapper;
 
-    public BasketController(IBasketRepository basketRepository, IMapper mapper)
+    public BasketController(IBasketRepository basketRepository, IMapper mapper, IOrderService orderService)
     {
         _mapper = mapper;
         _basketRepository = basketRepository;
+        _orderService = orderService;
     }
 
     [HttpGet]
@@ -29,6 +32,12 @@ public class BasketController : BaseApiController
     public async Task<ActionResult<CustomerBasket>> SaveBasket(CustomerBasketDto basket)
     {
         var customerBasket = _mapper.Map<CustomerBasketDto, CustomerBasket>(basket);
+        
+        var deliveryMethod = await _orderService.GetDeliveryMethodByIdAsync(basket.DeliveryMethodId);
+        
+        if (deliveryMethod is not null) {
+            customerBasket.ShippingPrice = deliveryMethod.Price;
+        }
 
         var savedBasket = await _basketRepository.SaveBasketAsync(customerBasket);
 
