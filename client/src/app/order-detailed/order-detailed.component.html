@@ -50,25 +50,12 @@
             </div>
         </div>
         <div class="col-4">
-            <div class="bg-light px-4 py-3 text-uppercase font-weight-bold">
-                <strong>Order summary</strong>
-            </div>
-            <div class="p-2">
-                <ul class="list-unstyled mb-1">
-                    <li class="d-flex justify-content-between py-3 border-bottom">
-                        <strong class="text-muted">Order subtotal</strong>
-                        <strong>{{order.subtotal | currency}}</strong>
-                    </li>
-                    <li class="d-flex justify-content-between py-3 border-bottom">
-                        <strong class="text-muted">Shipping and handling</strong>
-                        <strong>{{order.shippingPrice| currency}}</strong>
-                    </li>
-                    <li class="d-flex justify-content-between py-3 border-bottom">
-                        <strong class="text-muted">Total</strong>
-                        <strong>{{order.total| currency}}</strong>
-                    </li>
-                </ul>
-            </div>
+            <app-order-totals 
+                [useOrderDescription]="false"
+                [subTotal]="order.subtotal" 
+                [shipping]="order.shippingPrice" 
+                [total]="order.total">
+            </app-order-totals>
         </div>
     </div>
 </div>

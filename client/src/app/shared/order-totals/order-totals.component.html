@@ -3,21 +3,21 @@
 </div>
 
 <div class="p-4">
-    <p class="fst-italic mb-4">
+    <p *ngIf="useOrderDescription" class="fst-italic mb-4">
         Shipping costs will be calculated based on choises during checkout
     </p>
-    <ul class="list-unstyled mb-4" *ngIf="(basketService.basketTotalSource$ | async) as totals">
+    <ul class="list-unstyled mb-4">
         <li class="d-flex justify-content-between py-3 border-bottom">
             <strong class="text-muted">Order subtotal</strong>
-            <strong>{{totals.subTotal | currency}}</strong>
+            <strong>{{subTotal | currency}}</strong>
         </li>
         <li class="d-flex justify-content-between py-3 border-bottom">
             <strong class="text-muted">Shipping and handling</strong>
-            <strong>{{totals.shipping | currency}}</strong>
+            <strong>{{shipping | currency}}</strong>
         </li>
         <li class="d-flex justify-content-between py-3 border-bottom">
             <strong class="text-muted">Total</strong>
-            <strong>{{totals.total | currency}}</strong>
+            <strong>{{total | currency}}</strong>
         </li>
     </ul>
 </div>

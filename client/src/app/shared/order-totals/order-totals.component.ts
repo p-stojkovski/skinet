@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BasketService } from 'src/app/basket/basket.service';
 
 @Component({
@@ -7,5 +7,22 @@ import { BasketService } from 'src/app/basket/basket.service';
   styleUrls: ['./order-totals.component.scss'],
 })
 export class OrderTotalsComponent {
-  constructor(public basketService: BasketService) {}
+  @Input() useOrderDescription?: boolean = true;
+  @Input() subTotal?: number | null;
+  @Input() shipping?: number | null;
+  @Input() total?: number | null;
+
+  constructor(private basketService: BasketService) {
+    if(this.subTotal || this.shipping || this.total) {
+      return;
+    }
+    
+    this.basketService.basketTotalSource$.subscribe({
+      next: (basketTotals) => {
+        this.subTotal = basketTotals?.subTotal;
+        this.shipping = basketTotals?.shipping;
+        this.total = basketTotals?.total;
+      },
+    });
+  }
 }
