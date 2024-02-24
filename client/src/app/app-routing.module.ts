@@ -17,16 +17,27 @@ const routes: Routes = [
   },
   {
     path: 'basket',
-    loadChildren: () => import('./basket/basket.module').then((m) => m.BasketModule),
+    loadChildren: () =>
+      import('./basket/basket.module').then((m) => m.BasketModule),
   },
   {
     path: 'checkout',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./checkout/checkout.module').then((m) => m.CheckoutModule),
+    loadChildren: () =>
+      import('./checkout/checkout.module').then((m) => m.CheckoutModule),
+  },
+  {
+    path: 'orders',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./orders/orders.module').then((m) => m.OrdersModule),
+    data: { breadcrumb: 'Orders' },
   },
   {
     path: 'account',
-    loadChildren: () => import('./account/account.module').then((m) => m.AccountModule),
+    loadChildren: () =>
+      import('./account/account.module').then((m) => m.AccountModule),
+    data: { breadcrumb: { skip: true } },
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
