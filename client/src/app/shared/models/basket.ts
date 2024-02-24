@@ -14,6 +14,7 @@ export interface Basket {
   id: string;
   items: BasketItem[];
   deliveryMethodId?: number;
+  shippingPrice: number;
 }
 
 export class Basket implements Basket {
