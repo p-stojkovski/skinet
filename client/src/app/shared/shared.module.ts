@@ -7,7 +7,7 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { OrderTotalsComponent } from './order-totals/order-totals.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TextInputComponent } from './components/text-input/text-input.component';
 import { CdkStepperModule } from '@angular/cdk/stepper';
@@ -31,6 +31,7 @@ import { StepperComponent } from './components/stepper/stepper.component';
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
     ReactiveFormsModule,
+    FormsModule,
     BsDropdownModule.forRoot(),
     CdkStepperModule,
     RouterModule,
