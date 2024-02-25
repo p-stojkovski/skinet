@@ -136,6 +136,8 @@ dotnet ef migrations add OrderEntityAdded -p Infrastructure -s API -c StoreConte
 dotnet ef migrations add IdentityInitial  -p Infrastructure -s API -c AppIdentityDbContext -o Identity/Migrations
 
 Angular:
+ng build
+ng serve
 ng g c shop/product-item --skip-tests -> for creating components in child folder
 ng g m shop/shop-routing --flat -> for creating module in parent folder
 ng g s shop/shop --skip-tests -> for creating service in parent folder
@@ -149,7 +151,9 @@ FUTURE Development:
 - Review backend
 - Review and structure UI
 - List or grid view for the shop items
+- Better grid view design
 - Checkbox for multiple filter options
 - Pagination size option dropdown
+- Add orders menu item
 - Role based authentication?
 - Email Service (SendGrid)?
