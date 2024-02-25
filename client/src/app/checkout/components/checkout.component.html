@@ -1,18 +1,15 @@
 <div class="container mt-5" *ngIf="checkoutForm">
     <div class="row">
         <div class="col-8">
-            <app-stepper [linearModeSelected]="false" #appStepper>
-                <cdk-step [label]="'Address'" [completed]="addressForm?.valid" >
-                    <app-checkout-address [checkoutForm]="checkoutForm"></app-checkout-address>
+            <app-stepper #appStepper>
+                <cdk-step [label]="'Address'" [completed]="addressForm?.valid">
+                    <app-checkout-address [checkoutForm]="checkoutForm" />
                 </cdk-step>
                 <cdk-step [label]="'Delivery'" [completed]="deliveryForm?.valid">
-                    <app-checkout-delivery [checkoutForm]="checkoutForm"></app-checkout-delivery>
+                    <app-checkout-delivery [checkoutForm]="checkoutForm" />
                 </cdk-step>
                 <cdk-step [label]="'Review'">
-                    <app-checkout-review></app-checkout-review>
-                </cdk-step>
-                <cdk-step [label]="'Payment'">
-                    <app-checkout-payment [checkoutForm]="checkoutForm"></app-checkout-payment>
+                    <app-checkout-review [checkoutForm]="checkoutForm" />
                 </cdk-step>
             </app-stepper>
         </div>
