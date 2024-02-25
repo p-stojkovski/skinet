@@ -128,3 +128,28 @@ Accessing locally to the data can be done from the RedisCommander (http://127.0.
 
 run command: docker-compose up --detach
 *--detach means it will run the container in background and keep them running
+
+Commands reminder:
+.NET:
+dotnet watch --no-hot-reload
+dotnet ef migrations add OrderEntityAdded -p Infrastructure -s API -c StoreContext
+dotnet ef migrations add IdentityInitial  -p Infrastructure -s API -c AppIdentityDbContext -o Identity/Migrations
+
+Angular:
+ng g c shop/product-item --skip-tests -> for creating components in child folder
+ng g m shop/shop-routing --flat -> for creating module in parent folder
+ng g s shop/shop --skip-tests -> for creating service in parent folder
+
+--dry-run -> for checking changes without executing of the command
+
+
+FUTURE Development:
+- Move to SQL Server database
+- Inventory (Admin)
+- Review backend
+- Review and structure UI
+- List or grid view for the shop items
+- Checkbox for multiple filter options
+- Pagination size option dropdown
+- Role based authentication?
+- Email Service (SendGrid)?
