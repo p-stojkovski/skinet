@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Config;
+
 public class OrderConfiguration : IEntityTypeConfiguration<Order>
 {
     public void Configure(EntityTypeBuilder<Order> builder)
@@ -21,5 +22,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             );
 
         builder.HasMany(o => o.OrderItems).WithOne().OnDelete(DeleteBehavior.Cascade);
+
+        builder.Property(p => p.Subtotal).HasColumnType("decimal(18,2)");
     }
 }

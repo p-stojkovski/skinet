@@ -1,5 +1,7 @@
 using System.Text;
+using Ardalis.GuardClauses;
 using Core.Entities.Identity;
+using Infrastructure.Data;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -12,9 +14,16 @@ public static class IdentityServiceExtensions
 {
     public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
     {
-        services.AddDbContext<AppIdentityDbContext>(opt =>
+
+        var connectionString = config.GetConnectionString("IdentityConnection");
+
+        Guard.Against.Null(connectionString, message: "Connection string 'IdentityConnection' not found.");
+
+        services.AddDbContext<AppIdentityDbContext>((sp, options) =>
         {
-            opt.UseSqlite(config.GetConnectionString("IdentityConnection"));
+            //options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+            options.UseSqlServer(connectionString);
+
         });
 
         services.AddIdentityCore<AppUser>(opt =>

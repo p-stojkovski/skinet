@@ -132,7 +132,7 @@ run command: docker-compose up --detach
 Commands reminder:
 .NET:
 dotnet watch --no-hot-reload
-dotnet ef migrations add OrderEntityAdded -p Infrastructure -s API -c StoreContext
+dotnet ef migrations add OrderEntityAdded -p Infrastructure -s API -c StoreContext -o Data/Migrations
 dotnet ef migrations add IdentityInitial  -p Infrastructure -s API -c AppIdentityDbContext -o Identity/Migrations
 
 Angular:
@@ -157,3 +157,4 @@ FUTURE Development:
 - Add orders menu item
 - Role based authentication?
 - Email Service (SendGrid)?
+- HATEOAS?

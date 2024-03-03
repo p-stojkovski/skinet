@@ -1,9 +1,13 @@
 using API.Errors;
+using Core.Entities.Identity;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Identity;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using StackExchange.Redis;
 
 namespace API.Extenstions;
@@ -12,24 +16,6 @@ public static class ApplicationServicesExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
     {
-        services.AddDbContext<StoreContext>(opt =>
-        {
-            opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
-        });
-        services.AddSingleton<IConnectionMultiplexer>(c => 
-        {
-            var options = ConfigurationOptions.Parse(config.GetConnectionString("Redis"));
-            return ConnectionMultiplexer.Connect(options);
-        });
-        services.AddSingleton<IResponseCacheService, ResponseCacheService>();
-
-        services.AddScoped<ITokenService, TokenService>();
-        services.AddScoped<IOrderService, OrderService>();
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped<IBasketRepository, BasketRepository>();
-        services.AddScoped<IProductRepository, ProductRepository>();
-        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         services.Configure<ApiBehaviorOptions>(options =>
         {
@@ -61,5 +47,29 @@ public static class ApplicationServicesExtensions
         });
 
         return services;
+    }
+
+    public static async Task MigrateAndSeedDatabase(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        var services = scope.ServiceProvider;
+
+        var context = services.GetRequiredService<StoreContext>();
+        var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+        var userManager = services.GetRequiredService<UserManager<AppUser>>();
+       
+        try
+        {
+            await context.Database.MigrateAsync();
+            await identityContext.Database.MigrateAsync();
+            await StoreContextSeed.SeedAsync(context);
+            await AppIdentityDbContextSeed.SeedUsersAsync(userManager);
+        }
+        catch (Exception ex)
+        {
+            var logger = services.GetRequiredService<ILogger<Program>>();
+
+            logger.LogError(ex, "An error occurred during migration");
+        }
     }
 }
