@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.Dtos;
 
-public class AddressDto
+public sealed record AddressDto
 {
     [Required]
     public string FirstName { get; set; }

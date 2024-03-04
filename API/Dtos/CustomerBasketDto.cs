@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace API.Dtos;
-public class CustomerBasketDto
+public sealed record CustomerBasketDto
 {
     [Required]
     public string Id { get; set; }

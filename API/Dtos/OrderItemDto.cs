@@ -1,6 +1,6 @@
 namespace API.Dtos;
 
-public class OrderItemDto
+public sealed record OrderItemDto
 {
     public int ProductId { get; set; }
     public string ProductName { get; set; }

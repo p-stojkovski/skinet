@@ -2,7 +2,7 @@ using Core.Entities.OrderAggregate;
 
 namespace API.Dtos;
 
-public class OrderToReturnDto
+public sealed record OrderToReturnDto
 {
     public int Id {get;set;}
     public DateTime OrderDate { get; set; } = DateTime.UtcNow;

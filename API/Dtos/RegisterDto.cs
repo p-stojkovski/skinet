@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace API.Dtos;
-public class RegisterDto
+public sealed record RegisterDto
 {
     [Required]
     public string DisplayName { get; set; }

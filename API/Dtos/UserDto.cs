@@ -1,5 +1,5 @@
 namespace API.Dtos;
-public class UserDto
+public sealed record UserDto
 {
     public string Email { get; set; }
     public string DisplayName { get; set; }
