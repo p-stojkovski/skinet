@@ -1,9 +1,17 @@
 using API.Contracts.Basket;
 using API.Dtos;
 using API.Errors;
+using API.Extenstions;
+using API.Helpers;
+using API.Validations.Basket;
+using Ardalis.GuardClauses;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
+using FluentValidation;
+using FluentValidation.Results;
+using LanguageExt.Common;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -12,7 +20,7 @@ namespace API.Controllers;
 public class BasketController : BaseApiController
 {
     private readonly IBasketRepository _basketRepository;
-    private readonly IOrderService _orderService;  
+    private readonly IOrderService _orderService;
     private readonly IMapper _mapper;
 
     public BasketController(IBasketRepository basketRepository, IMapper mapper, IOrderService orderService)
@@ -44,23 +52,32 @@ public class BasketController : BaseApiController
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomerBasket))]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<CustomerBasket>> SaveBasket(SaveCustomerBasketRequest basket)
+    public async Task<ActionResult<CustomerBasket>> SaveBasket(SaveCustomerBasketRequest request)
     {
-        if (basket is null)
+        var customerBasket = _mapper.Map<SaveCustomerBasketRequest, CustomerBasket>(request);
+
+        var result = await SaveBasketAsync(customerBasket);
+
+        return result.ToActionResult();
+    }
+
+    private async Task<Result<CustomerBasket>> SaveBasketAsync(CustomerBasket customerBasket)
+    {
+        var validator = new CustomerBasketValidator();
+        var validationResult = validator.Validate(customerBasket);
+        if (!validationResult.IsValid)
         {
-            return BadRequest(new ApiResponse(StatusCodes.Status400BadRequest, "Invalid basket request"));
+            var error = new ValidationException(validationResult.Errors);
+            return new Result<CustomerBasket>(error);
         }
 
-        var customerBasket = _mapper.Map<SaveCustomerBasketRequest, CustomerBasket>(basket);
-        
-        var deliveryMethod = await _orderService.GetDeliveryMethodByIdAsync(basket.DeliveryMethodId);   
-        if (deliveryMethod is not null) {
+        var deliveryMethod = await _orderService.GetDeliveryMethodByIdAsync(customerBasket.DeliveryMethodId);
+        if (deliveryMethod is not null)
+        {
             customerBasket.ShippingPrice = deliveryMethod.Price;
         }
 
-        var savedBasket = await _basketRepository.SaveBasketAsync(customerBasket);
-
-        return Ok(savedBasket);
+        return await _basketRepository.SaveBasketAsync(customerBasket);
     }
 
     [HttpDelete]

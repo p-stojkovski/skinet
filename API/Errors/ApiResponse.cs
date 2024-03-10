@@ -1,16 +1,28 @@
 
+using FluentValidation.Results;
+
 namespace API.Errors;
 
 public class ApiResponse
 {
+    public int StatusCode { get; set; }
+    public string Message { get; set; }
+    public Dictionary<string, string[]> Errors { get; set; }
+
     public ApiResponse(int statusCode, string message = null)
     {
         StatusCode = statusCode;
         Message = message ?? GetDefaultMessageForStatusCode(statusCode);
     }
 
-    public int StatusCode { get; set; }
-    public string Message { get; set; }
+    public ApiResponse(int statusCode, IEnumerable<ValidationFailure> errors)
+    {
+        StatusCode = statusCode;
+        Errors = errors
+            .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
+            .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray()); ;
+        Message = "One or more validation errors occurred. See the 'Errors' property for details.";
+    }
 
     private string GetDefaultMessageForStatusCode(int statusCode)
     {
