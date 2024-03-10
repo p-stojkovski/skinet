@@ -35,13 +35,10 @@ public class BasketController : BaseApiController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<GetCustomerBasketResponse>> GetBasketById(string id)
     {
-        if (string.IsNullOrWhiteSpace(id))
-        {
-            return BadRequest(new ApiResponse(StatusCodes.Status400BadRequest, "Invalid basket id"));
-        }
+        Guard.Against.NullOrEmpty(id);
 
         var basket = await _basketRepository.GetBasketAsync(id);
-        if (basket == null)
+        if (basket is null)
         {
             basket = new CustomerBasket(id);
         }
@@ -85,10 +82,7 @@ public class BasketController : BaseApiController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> DeleteBasketAsync(string id)
     {
-        if (string.IsNullOrWhiteSpace(id))
-        {
-            return BadRequest(new ApiResponse(StatusCodes.Status400BadRequest, "Invalid basket id request"));
-        }
+        Guard.Against.NullOrEmpty(id);
 
         await _basketRepository.DeleteBasketAsync(id);
 
