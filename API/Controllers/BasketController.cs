@@ -1,16 +1,18 @@
+using API.Contracts.Basket;
 using API.Dtos;
+using API.Errors;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace API.Controllers;
 
 public class BasketController : BaseApiController
 {
     private readonly IBasketRepository _basketRepository;
-    private readonly IOrderService _orderService;
-    
+    private readonly IOrderService _orderService;  
     private readonly IMapper _mapper;
 
     public BasketController(IBasketRepository basketRepository, IMapper mapper, IOrderService orderService)
@@ -21,20 +23,37 @@ public class BasketController : BaseApiController
     }
 
     [HttpGet]
-    public async Task<ActionResult<CustomerBasket>> GetBasketById(string id)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetCustomerBasketResponse))]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<GetCustomerBasketResponse>> GetBasketById(string id)
     {
-        var basket = await _basketRepository.GetBasketAsync(id);
+        if (string.IsNullOrWhiteSpace(id))
+        {
+            return BadRequest(new ApiResponse(StatusCodes.Status400BadRequest, "Invalid basket id"));
+        }
 
-        return Ok(basket ?? new CustomerBasket(id));
+        var basket = await _basketRepository.GetBasketAsync(id);
+        if (basket == null)
+        {
+            basket = new CustomerBasket(id);
+        }
+
+        return Ok(_mapper.Map<GetCustomerBasketResponse>(basket));
     }
 
     [HttpPost]
-    public async Task<ActionResult<CustomerBasket>> SaveBasket(CustomerBasketDto basket)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomerBasket))]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<CustomerBasket>> SaveBasket(SaveCustomerBasketRequest basket)
     {
-        var customerBasket = _mapper.Map<CustomerBasketDto, CustomerBasket>(basket);
+        if (basket is null)
+        {
+            return BadRequest(new ApiResponse(StatusCodes.Status400BadRequest, "Invalid basket request"));
+        }
+
+        var customerBasket = _mapper.Map<SaveCustomerBasketRequest, CustomerBasket>(basket);
         
-        var deliveryMethod = await _orderService.GetDeliveryMethodByIdAsync(basket.DeliveryMethodId);
-        
+        var deliveryMethod = await _orderService.GetDeliveryMethodByIdAsync(basket.DeliveryMethodId);   
         if (deliveryMethod is not null) {
             customerBasket.ShippingPrice = deliveryMethod.Price;
         }
@@ -45,8 +64,17 @@ public class BasketController : BaseApiController
     }
 
     [HttpDelete]
-    public async Task DeleteBasketAsync(string id)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> DeleteBasketAsync(string id)
     {
+        if (string.IsNullOrWhiteSpace(id))
+        {
+            return BadRequest(new ApiResponse(StatusCodes.Status400BadRequest, "Invalid basket id request"));
+        }
+
         await _basketRepository.DeleteBasketAsync(id);
+
+        return Ok();
     }
 }

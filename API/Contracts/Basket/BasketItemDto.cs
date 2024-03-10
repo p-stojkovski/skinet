@@ -1,6 +1,6 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace API.Dtos;
+namespace API.Contracts.Basket;
 
 public sealed record BasketItemDto
 {

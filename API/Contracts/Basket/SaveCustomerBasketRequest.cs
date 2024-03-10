@@ -1,7 +1,9 @@
+﻿using API.Dtos;
 using System.ComponentModel.DataAnnotations;
 
-namespace API.Dtos;
-public sealed record CustomerBasketDto
+namespace API.Contracts.Basket;
+
+public record SaveCustomerBasketRequest
 {
     [Required]
     public string Id { get; set; }
