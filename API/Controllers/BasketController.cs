@@ -35,7 +35,10 @@ public class BasketController : BaseApiController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<GetCustomerBasketResponse>> GetBasketById(string id)
     {
-        Guard.Against.NullOrEmpty(id);
+        if (string.IsNullOrEmpty(id))
+        {
+            return BadRequest(new ApiResponse(StatusCodes.Status400BadRequest, "Invalid basket id."));
+        }
 
         var basket = await _basketRepository.GetBasketAsync(id);
         if (basket is null)
@@ -68,6 +71,7 @@ public class BasketController : BaseApiController
             return new Result<CustomerBasket>(error);
         }
 
+        //Get only the delivery method price
         var deliveryMethod = await _orderService.GetDeliveryMethodByIdAsync(customerBasket.DeliveryMethodId);
         if (deliveryMethod is not null)
         {
@@ -82,7 +86,10 @@ public class BasketController : BaseApiController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> DeleteBasketAsync(string id)
     {
-        Guard.Against.NullOrEmpty(id);
+        if (string.IsNullOrEmpty(id))
+        {
+            return BadRequest(new ApiResponse(StatusCodes.Status400BadRequest, "Invalid basket id."));
+        }
 
         await _basketRepository.DeleteBasketAsync(id);
 

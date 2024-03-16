@@ -4,7 +4,7 @@ using StackExchange.Redis;
 
 namespace Infrastructure.Services;
 
-public class ResponseCacheService : IResponseCacheService
+public sealed class ResponseCacheService : IResponseCacheService
 {
     private readonly IDatabase _database;
 

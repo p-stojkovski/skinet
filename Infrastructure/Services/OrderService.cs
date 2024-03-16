@@ -5,7 +5,7 @@ using Core.Specifications;
 
 namespace Infrastructure.Services;
 
-public class OrderService : IOrderService
+public sealed class OrderService : IOrderService
 {
     private readonly IBasketRepository _basketRepository;
     private readonly IUnitOfWork _unitOfWork;

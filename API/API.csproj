@@ -23,11 +23,11 @@
 
   <ItemGroup>
     <Content Include="Content\**" CopyToPublishDirectory="PreserveNewest" />
+    <Compile Remove="Controllers\Basket\**" />
+    <Content Remove="Controllers\Basket\**" />
+    <EmbeddedResource Remove="Controllers\Basket\**" />
+    <None Remove="Controllers\Basket\**" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\Basket\SaveBasket\" />
   </ItemGroup>
 
 </Project>
