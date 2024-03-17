@@ -27,6 +27,7 @@
     <Content Remove="Controllers\Basket\**" />
     <EmbeddedResource Remove="Controllers\Basket\**" />
     <None Remove="Controllers\Basket\**" />
+    <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 

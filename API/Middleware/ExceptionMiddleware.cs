@@ -2,6 +2,9 @@ using System;
 using System.Net;
 using System.Text.Json;
 using API.Errors;
+using Core.Exceptions;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.Extensions.Options;
 
 namespace API.Middleware;
@@ -31,16 +34,22 @@ public sealed class ExceptionMiddleware
 
             int statusCode;
             string message;
+            IEnumerable<ValidationFailure> errors = new List<ValidationFailure>();
 
             switch (ex)
             {
-                case ArgumentNullException argNullEx:
+                case ArgumentException argumentException:
                     statusCode = (int)HttpStatusCode.BadRequest;
-                    message = $"Argument '{argNullEx.ParamName}' cannot be null";
+                    message = argumentException.Message;
                     break;
-                case ArgumentException argEx:
+                case ValidationException validationException:
                     statusCode = (int)HttpStatusCode.BadRequest;
-                    message = argEx.Message;
+                    errors = validationException.Errors;
+                    message = validationException.Message;
+                    break;
+                case DomainException domainException:
+                    statusCode = (int)HttpStatusCode.BadRequest;
+                    message = domainException.Message;
                     break;
                 default:
                     statusCode = (int)HttpStatusCode.InternalServerError;
@@ -51,9 +60,9 @@ public sealed class ExceptionMiddleware
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = statusCode;
 
-            var response = _env.IsDevelopment()
-                ? new ApiException((int)statusCode, message, ex.StackTrace.ToString())
-                : new ApiException((int)statusCode);
+            var response = errors.Any() 
+                ? new ApiResponse((int)statusCode, errors) 
+                : new ApiResponse((int)statusCode, message);
 
             var options = new JsonSerializerOptions
             {

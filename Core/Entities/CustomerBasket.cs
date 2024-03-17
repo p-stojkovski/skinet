@@ -1,6 +1,6 @@
 namespace Core.Entities;
 
-public class CustomerBasket
+public sealed class CustomerBasket
 {
     public CustomerBasket()
     {

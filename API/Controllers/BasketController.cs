@@ -4,6 +4,7 @@ using API.Errors;
 using API.Extenstions;
 using API.Helpers;
 using API.Validations.Basket;
+using Application.Basket.Commands.SaveBasket;
 using Ardalis.GuardClauses;
 using AutoMapper;
 using Core.Entities;
@@ -11,6 +12,7 @@ using Core.Interfaces;
 using FluentValidation;
 using FluentValidation.Results;
 using LanguageExt.Common;
+using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -22,12 +24,14 @@ public class BasketController : BaseApiController
     private readonly IBasketRepository _basketRepository;
     private readonly IOrderService _orderService;
     private readonly IMapper _mapper;
+    private readonly ISender Mediator;
 
-    public BasketController(IBasketRepository basketRepository, IMapper mapper, IOrderService orderService)
+    public BasketController(IBasketRepository basketRepository, IMapper mapper, IOrderService orderService, ISender mediator) 
     {
         _mapper = mapper;
         _basketRepository = basketRepository;
         _orderService = orderService;
+        Mediator = mediator;
     }
 
     [HttpGet]
@@ -56,29 +60,9 @@ public class BasketController : BaseApiController
     {
         var customerBasket = _mapper.Map<SaveCustomerBasketRequest, CustomerBasket>(request);
 
-        var result = await SaveBasketAsync(customerBasket);
+        var result = await Mediator.Send(new SaveBasketCommand(customerBasket));
 
         return result.ToActionResult();
-    }
-
-    private async Task<Result<CustomerBasket>> SaveBasketAsync(CustomerBasket customerBasket)
-    {
-        var validator = new CustomerBasketValidator();
-        var validationResult = validator.Validate(customerBasket);
-        if (!validationResult.IsValid)
-        {
-            var error = new ValidationException(validationResult.Errors);
-            return new Result<CustomerBasket>(error);
-        }
-
-        //Get only the delivery method price
-        var deliveryMethod = await _orderService.GetDeliveryMethodByIdAsync(customerBasket.DeliveryMethodId);
-        if (deliveryMethod is not null)
-        {
-            customerBasket.ShippingPrice = deliveryMethod.Price;
-        }
-
-        return await _basketRepository.SaveBasketAsync(customerBasket);
     }
 
     [HttpDelete]

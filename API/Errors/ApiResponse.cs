@@ -7,7 +7,8 @@ public class ApiResponse
 {
     public int StatusCode { get; set; }
     public string Message { get; set; }
-    public Dictionary<string, string[]> Errors { get; set; }
+    public IReadOnlyList<string> Errors { get; set; }
+    //public Dictionary<string, string[]> Errors { get; set; }
 
     public ApiResponse(int statusCode, string message = null)
     {
@@ -19,8 +20,12 @@ public class ApiResponse
     {
         StatusCode = statusCode;
         Errors = errors
-            .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
-            .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray()); ;
+            .Distinct()
+            .Select(e => e.ErrorMessage)
+            .ToList();
+        //Errors = errors
+        //    .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
+        //    .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
         Message = "One or more validation errors occurred. See the 'Errors' property for details.";
     }
 
