@@ -1,4 +1,4 @@
-# Project Name
+# E-Commerce store using .Net Core and Angular
 
 Proof of concept E-Commerce store using .Net Core and Angular.
 
